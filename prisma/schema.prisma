@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  pizzas    Pizza[]  // One-to-many relation with Pizza model
+  burgers   Burger[] // One-to-many relation with Burger model
+  drinks    Drink[]  // One-to-many relation with Drink model
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Drink {
+  id          String   @id @default(uuid())
+  name        String
+  type        String?
+  price       Float
+  isStock     Boolean  @default(false)
+  category    String?
+  rating      String?
+  image       String?
+  description String?
+  userId      String   // Foreign key to the User model
+  user        User     @relation(fields: [userId], references: [id]) // Establishes relation with User
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("drinks")
+}
+
+model Burger {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  category    String?
+  image       String?
+  rating      String?
+  userId      String   // Foreign key to the User model
+  user        User     @relation(fields: [userId], references: [id]) // Establishes relation with User
+  isStock     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("burgers")
+}
+
+model Pizza {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  size        String?  
+  category    String?  
+  image       String?  
+  rating      String?  
+  isStock     Boolean  @default(false)
+  userId      String   // Foreign key to the User model
+  user        User     @relation(fields: [userId], references: [id]) 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("pizzas")
+}
