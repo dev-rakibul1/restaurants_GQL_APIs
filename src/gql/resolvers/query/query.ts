@@ -27,6 +27,12 @@ export const Query = {
     return result;
   },
 
+  // Pizza query
+  products: async (parent: any, args: any, { prisma }: any) => {
+    const result = await prisma.products.findMany();
+    return result;
+  },
+
   sPizza: async (parent: any, args: any, { prisma }: any) => {
     const result = await prisma.pizza.findFirst();
     return result;

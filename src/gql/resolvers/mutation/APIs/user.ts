@@ -13,6 +13,8 @@ const addUser = async (parent: any, args: IUser, { prisma }: any) => {
     where: { email: args.email },
   });
 
+  console.log(args);
+
   if (isExistUser) {
     return {
       customError: "Email already exists!",

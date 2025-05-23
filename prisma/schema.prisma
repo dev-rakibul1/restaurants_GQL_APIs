@@ -13,6 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+  model Products {
+  id        String   @id @default(uuid())
+  image     String
+  price     Int
+  des       String
+  category  String
+  status    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("products")
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String

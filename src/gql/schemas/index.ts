@@ -2,7 +2,18 @@
 // that together define the "shape" of queries that are executed against
 // your data.
 
-export const typeDefs = `#graphql
+export const typeDefs = `#graphqlz
+
+  type Product {
+    id: ID!
+    image: String
+    price: Int
+    des: String
+    category: String
+    status: Boolean
+    createdAt: String
+    updatedAt: String
+  }
 
 type Drink {
   id: ID!
@@ -60,6 +71,8 @@ type User {
 
 # Mutation Type: Combine all mutations into one Mutation type
 type Mutation {
+
+
 
 
  # Login mutation
@@ -155,6 +168,29 @@ type Mutation {
   ): PizzaReturn
 
   deletePizza(id: ID!): String
+
+
+   # Drink Mutations
+  addProduct(
+    name: String!
+    type: String
+    price: Float!
+    isStock: Boolean
+    category: String
+    rating: String
+    image: String
+    userId: ID # Added userId as a required field
+  ): DrinkReturn  
+  
+  
+  # add common product Mutations
+  addCommonProduct(
+   image: String
+    price: Int
+    des: String
+    category: String
+    status: Boolean
+  ): ProductReturn
 }
 
 # Return Types for mutations
@@ -166,6 +202,11 @@ type UserReturn {
 type DrinkReturn {
   customError: String
   drink: Drink
+}
+  
+type ProductReturn {
+  customError: String
+  product: Product
 }
 
 type BurgerReturn {
@@ -189,6 +230,7 @@ type Query {
   burgers: [Burger]
   pizzas: [Pizza]
   users: [User] # Query to fetch users
+  products: [Product] # Query to fetch users
 
   #Single user query
   sUser(id: String!): User
